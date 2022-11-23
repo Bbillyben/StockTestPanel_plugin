@@ -96,8 +96,28 @@ class STP_StockItemSerializer(InvenTreeModelSerializer):
         ]
     
 ### ------------------------------------------- Resource Class ------------------------------------------------ ###
+class TestWidgets(widgets.CharWidget):
+     def render(self, value, obj=None):
+        pt=PartTestTemplate.objects.filter(part=obj.part)
+        return STP_PartTestTemplateSerializer(pt, many=True, context={'stockItem':obj}).data
+    
 class STPTestResource(InvenTreeResource):
-
+    itemName = Field(
+        column_name=_('Item'),
+        attribute='part__name', 
+        widget=widgets.CharWidget(), readonly=True
+        ) 
+    location = Field(
+        column_name=_('location'),
+        attribute='location', 
+        widget=widgets.ForeignKeyWidget(StockLocation, 'name'), readonly=True
+        )   
+    testsReport=Field(
+        column_name=_('Tests'),
+        attribute='pk', 
+        widget=TestWidgets(), readonly=True,      
+        
+    )
     def export(self, queryset=None):
         fetched_queryset = list(queryset)
         return super().export(fetched_queryset)
@@ -108,8 +128,37 @@ class STPTestResource(InvenTreeResource):
         clean_model_instances = False
         exclude = [
             'id',
+            'metadata',
+            'barcode_data',
+            'barcode_hash',
+            'parent',
+            'part',
+            'supplier_part',
+            'packaging',
+            'belongs_to',
+            'customer',
+            'serial_int',
+            'link',
+            'build',
+            'is_building',
+            'purchase_order',
+            'sales_order',
+            'stocktake_date',
+            'stocktake_user',
+            'review_needed',
+            'delete_on_deplete',
+            'status',
+            'notes',
+            'purchase_price_currency',
+            'purchase_price',
+            'owner',
+            'lft',
+            'rght',
+            'tree_id',
+            'level',
+
         ]
-        #export_order=['itemName', 'batch', 'date', 'label', 'deltas',  'location' ,'quantity', 'notes','user', ]
+        export_order=['itemName', 'batch', 'serial', 'expiry_date', 'quantity', 'location' ,'quantity', 'updated', 'testsReport', ]
    
 ### ------------------------------------------- View Class ------------------------------------------------ ###
    

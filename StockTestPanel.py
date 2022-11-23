@@ -58,7 +58,7 @@ class StockTestPanel(PanelMixin, UrlsMixin, InvenTreePlugin):
                     # Simple panel without any actual content
                     'title': 'Stock Test',
                     'content': tmpRend,
-                    'icon' : 'fa-microscope', 
+                    'icon' : 'fa-vial', 
                     'javascript': 'STP_initPanel',
                     'javascript_template': 'stocktestpanel/STP_panel.js'
                 }
