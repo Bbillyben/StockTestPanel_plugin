@@ -45,7 +45,7 @@ class STP_PartTestTemplateSerializer(InvenTreeModelSerializer):
     def get_testResult(self,obj):
         si= self.context.get("stockItem")
         
-        sit=StockItemTestResult.objects.filter(stock_item=si.pk).first()
+        sit=StockItemTestResult.objects.filter(stock_item=si.pk, test=obj.test_name).first()
         return STP_StockItemTestResultSerializer(sit, many=False).data
     
     class Meta:

@@ -96,57 +96,61 @@ data-url="{{dataUrl}}"
         var html = "<table class='table table-condensed test-table-unik'>";
         // test name
         html +="<tbody>"
-        html += "<tr><td>"+test.test_name+"</td>";
-        // test mandatory
-        html += "<td class='icons not_title'><span class='icon'><i class='fas fa-exclamation "+ STP_test_is_success(test.required, test.result.test) //(test.required ? "text-success":"text-secondary")
-        html += "' title='{%trans 'Is mandatory' %} : " +test.required+"'";
-        html+= "></i></span>";
-        // test value mandatory
-        if(test.requires_value || test.result.value){
-            html += "<span class='icon'><i class='fas fa-pen "+ STP_test_is_success(test.requires_value, test.result.value)
-            html += "' title='{%trans 'Value required' %} : " +test.requires_value
-            if(test.result.value)html += " | "+test.result.value;
-            html += "'";
+        for(id in value){
+            test=value[id];
+            html += "<tr><td>"+test.test_name+"</td>";
+            // test mandatory
+            html += "<td class='icons not_title'><span class='icon'><i class='fas fa-exclamation "+ STP_test_is_success(test.required, test.result.test) //(test.required ? "text-success":"text-secondary")
+            html += "' title='{%trans 'Is mandatory' %} : " +test.required+"'";
             html+= "></i></span>";
-        }
-        // test file mandatory
-        if(test.requires_attachment || test.result.attachment){
-            html += "<span class='icon'>";
-            if(test.result.attachment)html+="<a href="+test.result.attachment+" >";                
-            html+="<i class='fas fa-file-alt "+ STP_test_is_success(test.requires_attachment, test.result.attachment)
-            html += "' title='{%trans 'Attachement required' %} : " +test.requires_attachment+"'";
-            html+= "></i>";
-            if(test.result.attachment)html+="</a>"; 
-            html+="</span>";
-        }
-        // note
-        if(test.result.notes){
-            html += "<span class='icon'><i class='fas fa-comment text-info' "
-            html += "' title='{%trans 'Notes' %} :"+test.result.notes+"'";
-            html+= "></i></span>";
-        }
-        html +="</td>";
-        //date
-        html +="<td class='not_title'>"
-            if(test.result.date)html +=test.result.date;
-        html +="</td>";
-        //test status
-        html +="<td class='not_title'>"
-        if(!test.result.test){
-            html +='<span class="badge badge-right rounded-pill bg-secondary">{%trans "WAITING" %}</span>';
-        }else if(test.result.result){
-            html +='<span class="badge badge-right rounded-pill bg-success">OK</span>';
-        }else{
-            html +='<span class="badge badge-right rounded-pill bg-danger">KO</span>';
+            // test value mandatory
+            if(test.requires_value || test.result.value){
+                html += "<span class='icon'><i class='fas fa-pen "+ STP_test_is_success(test.requires_value, test.result.value)
+                html += "' title='{%trans 'Value required' %} : " +test.requires_value
+                if(test.result.value)html += " | "+test.result.value;
+                html += "'";
+                html+= "></i></span>";
+            }
+            // test file mandatory
+            if(test.requires_attachment || test.result.attachment){
+                html += "<span class='icon'>";
+                if(test.result.attachment)html+="<a href="+test.result.attachment+" >";                
+                html+="<i class='fas fa-file-alt "+ STP_test_is_success(test.requires_attachment, test.result.attachment)
+                html += "' title='{%trans 'Attachement required' %} : " +test.requires_attachment+"'";
+                html+= "></i>";
+                if(test.result.attachment)html+="</a>"; 
+                html+="</span>";
+            }
+            // note
+            if(test.result.notes){
+                html += "<span class='icon'><i class='fas fa-comment text-info' "
+                html += "' title='{%trans 'Notes' %} :"+test.result.notes+"'";
+                html+= "></i></span>";
+            }
+            html +="</td>";
+            //date
+            html +="<td class='not_title'>"
+                if(test.result.date)html +=test.result.date;
+            html +="</td>";
+            //test status
+            html +="<td class='not_title'>"
+            if(!test.result.test){
+                html +='<span class="badge badge-right rounded-pill bg-secondary">{%trans "WAITING" %}</span>';
+            }else if(test.result.result){
+                html +='<span class="badge badge-right rounded-pill bg-success">OK</span>';
+            }else{
+                html +='<span class="badge badge-right rounded-pill bg-danger">KO</span>';
+            }
+            
+            html +="</td>"
+            //user
+            html +="<td class='not_title'>"
+            if(test.result.user){
+                html +=test.result.user_detail.username
+            }
+            html +="</td>"
         }
         
-        html +="</td>"
-        //user
-        html +="<td class='not_title'>"
-        if(test.result.user){
-            html +=test.result.user_detail.username
-        }
-        html +="</td>"
         html +="</tbody>"
 
             
