@@ -48,8 +48,8 @@ data-url="{{dataUrl}}"
 <script>
 
     const testNameCodes = {
-        {% for opt in testName %}'{{ opt.pk }}': {
-            key: '{{ opt.pk }}',
+        {% for opt in testName %}'{{ opt.test_name }}': {
+            key: '{{ opt.test_name }}',
             value: '{{ opt.test_name }}',
         },
         {% endfor %}
@@ -87,8 +87,8 @@ data-url="{{dataUrl}}"
     }
     function STP_test_formatter(value, row, index, field){
         //console.log("STP_test_formatter ------------------------------------------");
-        console.log("value :"+JSON.stringify(value));
-        console.log("row :"+JSON.stringify(row));
+        //console.log("value :"+JSON.stringify(value));
+        //console.log("row :"+JSON.stringify(row));
         //console.log("index :"+JSON.stringify(index));
 
         test=value[0]
@@ -102,15 +102,27 @@ data-url="{{dataUrl}}"
         html += "' title='{%trans 'Is mandatory' %} : " +test.required+"'";
         html+= "></i></span>";
         // test value mandatory
-        if(test.requires_value){
+        if(test.requires_value || test.result.value){
             html += "<span class='icon'><i class='fas fa-pen "+ STP_test_is_success(test.requires_value, test.result.value)
-            html += "' title='{%trans 'Value required' %} : " +test.requires_value+"'";
+            html += "' title='{%trans 'Value required' %} : " +test.requires_value
+            if(test.result.value)html += " | "+test.result.value;
+            html += "'";
             html+= "></i></span>";
         }
         // test file mandatory
-        if(test.requires_attachment){
-            html += "<span class='icon'><i class='fas fa-file-alt "+ STP_test_is_success(test.requires_attachment, test.result.attachment)
+        if(test.requires_attachment || test.result.attachment){
+            html += "<span class='icon'>";
+            if(test.result.attachment)html+="<a href="+test.result.attachment+" >";                
+            html+="<i class='fas fa-file-alt "+ STP_test_is_success(test.requires_attachment, test.result.attachment)
             html += "' title='{%trans 'Attachement required' %} : " +test.requires_attachment+"'";
+            html+= "></i>";
+            if(test.result.attachment)html+="</a>"; 
+            html+="</span>";
+        }
+        // note
+        if(test.result.notes){
+            html += "<span class='icon'><i class='fas fa-comment text-info' "
+            html += "' title='{%trans 'Notes' %} :"+test.result.notes+"'";
             html+= "></i></span>";
         }
         html +="</td>";

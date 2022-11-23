@@ -206,7 +206,7 @@ class STPtestViewSet(View):
         
         name = params.get('testname', None)
         if name is not None:
-            tests=PartTestTemplate.objects.filter(pk=name).values('part')
+            tests=PartTestTemplate.objects.filter(test_name=name).values('part')
         else:
             tests=PartTestTemplate.objects.all().values('part')
         
