@@ -196,7 +196,6 @@ class STPtestViewSet(View):
         return queryset
     
     def get_queryset(self, loc=None):
-        print('[STPtestViewSet] get_queryset')
         
         params = self.request.GET
         locs=None
