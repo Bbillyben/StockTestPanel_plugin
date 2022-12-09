@@ -63,7 +63,7 @@ class StockTestPanel(PanelMixin, UrlsMixin, InvenTreePlugin):
                     'javascript_template': 'stocktestpanel/STP_panel.js'
                 }
             ]
-        return panels
+            return panels
 
 
     def setup_urls(self):
