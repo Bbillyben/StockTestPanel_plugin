@@ -13,6 +13,7 @@ import import_export.widgets as widgets
 from django.contrib.auth.models import User
 
 import datetime
+import pytz
 from dateutil.relativedelta import relativedelta
 
 from part.models import PartTestTemplate
@@ -184,6 +185,18 @@ class STPtestViewSet(View):
                 sitested=StockItemTestResult.objects.filter(result=False).values('stock_item')
                 queryset = queryset.filter(pk__in=sitested)
                 
+        dategte = params.get('date_greater', None)
+        if dategte is not None:
+            date_gte = datetime.datetime.strptime(dategte, '%Y-%m-%d')
+            date_gte = date_gte.replace(tzinfo=pytz.UTC)
+            queryset = queryset.filter(updated__gte=date_gte)
+        
+        datelte = params.get('date_lesser', None)
+        if datelte is not None:
+            date_lte = datetime.datetime.strptime(datelte, '%Y-%m-%d')
+            date_lte = date_lte.replace(tzinfo=pytz.UTC)
+            queryset = queryset.filter(updated__lte=date_lte)
+                
         lastdate = params.get('lastdate', None)
         if str2bool(lastdate) :
             last_date = queryset.latest('updated').updated
@@ -191,7 +204,6 @@ class STPtestViewSet(View):
                 last_date= datetime.datetime.now()
             max_date=datetime.datetime(last_date.year, last_date.month, last_date.day)
             queryset = queryset.filter(updated__gte=max_date)
-        
         
         return queryset
     

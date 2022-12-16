@@ -48,7 +48,7 @@ class StockTestPanel(PanelMixin, UrlsMixin, InvenTreePlugin):
             context={'dataUrl':urlTrac}
             
             # Test Names 
-            tNames = PartTestTemplate.objects.all().values('pk', 'test_name')
+            tNames = PartTestTemplate.objects.all().values('test_name').distinct()
             context['testName']=tNames
             
             tmpRend = render_to_string(template_name='stocktestpanel/STP_panel.html',context=context)
