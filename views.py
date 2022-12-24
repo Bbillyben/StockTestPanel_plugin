@@ -187,14 +187,12 @@ class STPtestViewSet(View):
                 
         dategte = params.get('date_greater', None)
         if dategte is not None:
-            date_gte = datetime.datetime.strptime(dategte, '%Y-%m-%d')
-            date_gte = date_gte.replace(tzinfo=pytz.UTC)
+            date_gte = datetime.datetime.fromtimestamp(int(dategte) / 1e3)
             queryset = queryset.filter(updated__gte=date_gte)
         
         datelte = params.get('date_lesser', None)
         if datelte is not None:
-            date_lte = datetime.datetime.strptime(datelte, '%Y-%m-%d')
-            date_lte = date_lte.replace(tzinfo=pytz.UTC)
+            date_lte = datetime.datetime.fromtimestamp(int(datelte) / 1e3)
             queryset = queryset.filter(updated__lte=date_lte)
                 
         lastdate = params.get('lastdate', None)
