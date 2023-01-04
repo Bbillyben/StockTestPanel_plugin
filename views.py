@@ -187,13 +187,19 @@ class STPtestViewSet(View):
                 
         dategte = params.get('date_greater', None)
         if dategte is not None:
-            date_gte = datetime.datetime.fromtimestamp(int(dategte) / 1e3)
-            queryset = queryset.filter(updated__gte=date_gte)
+            try:
+                    date_gte = datetime.datetime.fromisoformat(dategte)
+                    queryset = queryset.filter(updated__gte=date_gte)
+            except (ValueError, TypeError):
+                pass
         
         datelte = params.get('date_lesser', None)
         if datelte is not None:
-            date_lte = datetime.datetime.fromtimestamp(int(datelte) / 1e3)
-            queryset = queryset.filter(updated__lte=date_lte)
+            try:
+                    date_lte = datetime.datetime.fromisoformat(datelte)
+                    queryset = queryset.filter(updated__lte=date_lte)
+            except (ValueError, TypeError):
+                pass
                 
         lastdate = params.get('lastdate', None)
         if str2bool(lastdate) :
