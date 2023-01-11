@@ -64,7 +64,7 @@ class StockTestPanel(PanelMixin, UrlsMixin, InvenTreePlugin):
                 }
             ]
             return panels
-
+        return []
 
     def setup_urls(self):
         # """Urls that are exposed by this plugin."""
