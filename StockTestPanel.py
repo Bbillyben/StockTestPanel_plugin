@@ -1,6 +1,6 @@
 from plugin import InvenTreePlugin
 from plugin.mixins import PanelMixin, SettingsMixin
-from plugin.base.integration.mixins import UrlsMixin
+from plugin.base.integration.UrlsMixin import UrlsMixin
 from django.core.validators import  MinValueValidator
 from stock.views import StockLocationDetail, StockIndex
 from django.template.loader import render_to_string
